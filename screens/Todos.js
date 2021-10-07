@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {FlatList, View, Text, ActivityIndicator} from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
-import {Appbar, TextInput, Button} from 'react-native-paper';
+import {TextInput, Button} from 'react-native-paper';
 
 import Todo from '../components/Todo';
 
@@ -37,15 +37,19 @@ function Todos({navigation}) {
 
   return (
     <>
-      <Appbar>
-        <Appbar.Content title={'Todos List'} />
-      </Appbar>
-      <FlatList
-        style={{flex: 1}}
-        data={todos}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => <Todo {...item} />}
-      />
+      {!todos.length ? (
+        <Text style={{flex: 1, fontSize: 18, padding: 10, color: 'gray'}}>
+          There are no Todo Items!
+        </Text>
+      ) : (
+        <FlatList
+          style={{flex: 1}}
+          data={todos}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => <Todo {...item} />}
+        />
+      )}
+
       {/* <TextInput label={'Enter New Todo'} value={todo} onChangeText={setTodo} /> */}
       <Button onPress={() => navigation.navigate('ImageUploadForm')}>
         Add New Todo
